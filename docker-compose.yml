@@ -2,15 +2,15 @@ version: '3.7'
 
 services:
   client:
-    build: ./cliente/Dockerfile
+    restart: always
+    build: 
+      context: ./cliente
+      dockerfile: ./Dockerfile
     depends_on:
       - postgres
+      - redis
     ports:
-      - "80:3000"
-  server:
-    build: ./<ruta al servidor>
-    depends_on:
-      - postgres
+      - "8000:3000"
   postgres:
     image: docker.io/bitnami/postgresql:11
     volumes:
