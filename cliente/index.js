@@ -1,8 +1,12 @@
-var redis = require('redis');
-var client = redis.createClient(); //creates a new client
+const express = require('express')
+const app = express()
+const port = 8000
 
-client.on('connect', function() {
-    console.log('connected');
+app.use(express.static('public'));
+app.listen(port, () => {
+    console.log(`Api listening at http://localhost:${port}`)
 });
 
-client.set('foo', 'bar');
+app.get('/', (req,res) => {
+	res.send("Hello word");	
+});
