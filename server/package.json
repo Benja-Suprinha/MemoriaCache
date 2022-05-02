@@ -1,12 +1,13 @@
 {
   "dependencies": {
     "@grpc/grpc-js": "^1.6.7",
-    "@grpc/proto-loader": "^0.6.9"
+    "@grpc/proto-loader": "^0.6.9",
+    "express": "^4.18.1",
+    "pg": "^8.7.3"
   },
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
