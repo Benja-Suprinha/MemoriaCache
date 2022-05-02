@@ -3,7 +3,7 @@ version: '3.7'
 services:
   client:
     restart: always
-    build: 
+    build:
       context: ./cliente
       dockerfile: ./Dockerfile
     depends_on:
@@ -11,6 +11,8 @@ services:
       - redis
     ports:
       - "8000:3000"
+    environment:
+      - REDIS_HOST=redis
   postgres:
     image: docker.io/bitnami/postgresql:11
     volumes:
@@ -26,3 +28,5 @@ services:
       - ./redis:/data
     ports:
       - 6379:6379
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes

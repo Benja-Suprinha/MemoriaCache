@@ -1,4 +1,5 @@
 const express = require('express')
+const session = require('express-session')
 const app = express()
 const port = 8000
 const redis = require('redis');
@@ -8,16 +9,20 @@ app.listen(port, () => {
     console.log(`Api listening at http://localhost:${port}`)
 });
 
-(async () => {
-  const client = redis.createClient();
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-  client.on('error', (err) => console.log('Redis Client Error', err));
+const RedisStore = connectRedis(session);
 
-  await client.connect();
+const redisClient = redis.createClient({
+    host: process.env.REDIS_HOST,   
+    port: 6379
+});
 
-  await client.set('key', 'value');
-  const value = await client.get('key');
-})();
+redisClient.on("error", function(error) {
+  console.error(error);
+});
 
 app.get('/', (req,res) => {
 	res.send("Hello word");
