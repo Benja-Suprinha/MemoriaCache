@@ -12,45 +12,48 @@ var packageDefinition = protoLoader.loadSync(
     });
 var demo_proto = grpc.loadPackageDefinition(packageDefinition).demo;
 
-/* Conexion a la base de datos */
 const mysqlConnection = require('./index');
+const HOST = process.env.SERVER_HOST;
 
-/*function AddCaso(call, callback) {
-  const query = 'INSERT INTO Caso (name,location,age,infected_type,state) VALUES ('+
-  '\''+call.request.name+'\','+
-  '\''+call.request.location+'\','+
-  +call.request.age+','+
-  '\''+call.request.infected_type+'\','+
-  '\''+call.request.state+'\');';
-  
-  mysqlConnection.query(query, function(err, rows, fields) {
-    if (err) throw err;
-    callback(null, {message: 'Caso insertado en la base de datos'});
-  });
-}*/
+function ListarInv(req,callback) {
+  const q = req.request.name;
+  console.log(q)
+  if(q){
+    const query = `SELECT * FROM items WHERE name LIKE '%${q}%';` ;
+    mysqlConnection.query(query)
+    .then((payload)=>{
+      console.log(payload.rows.length);
+      let arr = [];
+      for(const data of payload.rows){
+        //console.log(data);
+        arr.push(data)
+      }
+      //console.log(arr)
+      callback(null, { items: arr});
+    });
+  }else{
+    const query = 'SELECT * FROM items';
 
-function ListarCasos(call) {
-  const query = 'SELECT * FROM iteams;';
-
-  mysqlConnection.query(query, function(err, rows, fields) {
-    if (err) throw err;
-    //console.log(rows.length)
-    for(const data of rows){
-      //console.log(data);
-      call.write(data);
-    }
-    call.end();
-  });
-  
+    mysqlConnection.query(query)
+    .then((payload)=>{
+      console.log(payload.rows.length);
+      let arr = [];
+      for(const data of payload.rows){
+        //console.log(data);
+        arr.push(data);
+      }
+      //console.log(arr)
+      callback(null, { items: arr});
+    });
+  }
 }
 
 function main() {
   var server = new grpc.Server();
-  server.addService(demo_proto.Casos.service, {
-    //AddCaso: AddCaso,
-    ListarCasos: ListarCasos
+  server.addService(demo_proto.ItemService.service, {
+    ListarInv: ListarInv
   });
-  server.bindAsync('server', grpc.ServerCredentials.createInsecure(), () => {
+  server.bindAsync(`[::]:50051`, grpc.ServerCredentials.createInsecure(), () => {
     server.start();
     console.log('gRPC server on')
   });

@@ -1,24 +1,30 @@
-var PROTO_PATH = './proto/demo.proto';
+const PROTO_PATH = './proto/demo.proto';
 
-var grpc = require('@grpc/grpc-js');
-var protoLoader = require('@grpc/proto-loader');
+var parseArgs = require('minimist');
+const grpc = require('@grpc/grpc-js');
+const protoLoader = require('@grpc/proto-loader');
 
 const HOST = process.env.SERVER_HOST;
 
 var packageDefinition = protoLoader.loadSync(
-    PROTO_PATH,
-    {keepCase: true,
-     longs: String,
-     enums: String,
-     defaults: true,
-     oneofs: true
-    });
-
+  PROTO_PATH,
+  {keepCase: true,
+   longs: String,
+   enums: String,
+   defaults: true,
+   oneofs: true
+  });
 var demo_proto = grpc.loadPackageDefinition(packageDefinition).demo;
 
-const client = new demo_proto(
-  `${HOST}:50051`,
-  grpc.credentials.createInsecure()
-);
+var argv = parseArgs(process.argv.slice(2), {
+string: 'target'
+});
+var target;
+if (argv.target) {
+target = argv.target;
+} else {
+target = `${HOST}:50051`;
+}
+var client = new demo_proto.ItemService(target,grpc.credentials.createInsecure());
 
 module.exports = client;

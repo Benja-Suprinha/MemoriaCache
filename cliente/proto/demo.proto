@@ -7,25 +7,6 @@ option objc_class_prefix = "HLW";
 
 package demo;
 
-service Casos {
-  rpc AddCaso (InventoryReq) returns (Reply) {}
-  rpc ListarCasos (Empty) returns (stream InventoryRes) {}
-}
-
-message InventoryReq {
-  int32 index = 1;
-  string name = 2;
-  float price = 3;
-  string category = 4;
-  int32 count = 5;
-}
-
-message Reply {
-  string message = 1;
-}
-
-message Empty {}
-
 message InventoryRes {
   int32 index = 1;
   string name = 2;
@@ -33,3 +14,11 @@ message InventoryRes {
   string category = 4;
   int32 count = 5;
 }
+
+service ItemService {
+  rpc ListarInv(GetItemsRequest) returns (Response) {}
+}
+
+message Response { repeated InventoryRes items = 1; }
+
+message GetItemsRequest { string name = 1; }

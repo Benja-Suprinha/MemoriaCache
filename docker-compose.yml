@@ -25,6 +25,8 @@ services:
       - client
     ports:
       - "3000:3000"
+    environment:
+      - SERVER_HOST=server
   postgres:
     image: docker.io/bitnami/postgresql:11
     volumes:

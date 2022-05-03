@@ -1,5 +1,5 @@
 const express = require("express");
-//const grpcClient = require("./clientegRPC");
+const grpcClient = require('./clientgRPC');
 const { createClient } = require("redis");
 
 const app = express();
@@ -16,34 +16,36 @@ app.get("/", (req,res)=>{
   res.send("api redis op")
 });
 
-app.get("/list", async (req,res)=>{
+/*app.get("/list", async (req,res)=>{
   const redisRes = await client.get("name")
   if(redisRes){
     res.send(redisRes);
   }else{
     res.send("no hay respuesta");
   }
-});
+});*/
 
-/*app.get("/inventory/search", async (req, res) => {
+app.get("/inventory/search", async (req, res) => {
   const { query } = req;
   const q = query.q;
 
   const redisRes = await client.get(q);
   console.log(redisRes);
+  console.log(q);
   if (redisRes) {
-    res.status(200).json(JSON.parse(redisRes));
+    res.send(JSON.parse(redisRes));
   } else {
-    grpcClient.ListarCasos({ name: q }, async (err, data) => {
+    grpcClient.ListarInv({ name: q }, async (err, data) => {
       if (err) {
         res.status(500).json({ err });
       } else {
+        console.log(data)
         await client.set(q, JSON.stringify(data));
-        res.status(200).json({ data });
+        res.send(data);
       }
     });
   }
-});*/
+});
 
 app.listen(port, () => {
   console.log(`Api listening at http://localhost:${port}`)
