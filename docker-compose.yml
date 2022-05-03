@@ -34,9 +34,10 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
       - POSTGRESQL_PASSWORD=marihuana
   redis:
-    image: redis
+    image: bitnami/redis:6.0.16
+    restart: always
     volumes:
-      - ./redis:/data
+      - ./redis:/bitnami/redis/data
     ports:
       - "6379:6379"
     environment:

@@ -13,9 +13,9 @@ var packageDefinition = protoLoader.loadSync(
 var demo_proto = grpc.loadPackageDefinition(packageDefinition).demo;
 
 /* Conexion a la base de datos */
-const mysqlConnection = require('./mysql_connection');
+const mysqlConnection = require('./index');
 
-function AddCaso(call, callback) {
+/*function AddCaso(call, callback) {
   const query = 'INSERT INTO Caso (name,location,age,infected_type,state) VALUES ('+
   '\''+call.request.name+'\','+
   '\''+call.request.location+'\','+
@@ -27,10 +27,10 @@ function AddCaso(call, callback) {
     if (err) throw err;
     callback(null, {message: 'Caso insertado en la base de datos'});
   });
-}
+}*/
 
 function ListarCasos(call) {
-  const query = 'SELECT name,location,age,infected_type,state FROM Caso;';
+  const query = 'SELECT * FROM iteams;';
 
   mysqlConnection.query(query, function(err, rows, fields) {
     if (err) throw err;
@@ -47,12 +47,12 @@ function ListarCasos(call) {
 function main() {
   var server = new grpc.Server();
   server.addService(demo_proto.Casos.service, {
-    AddCaso: AddCaso,
+    //AddCaso: AddCaso,
     ListarCasos: ListarCasos
   });
-  server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), () => {
+  server.bindAsync('server', grpc.ServerCredentials.createInsecure(), () => {
     server.start();
-    console.log('gRPC server on port 50051')
+    console.log('gRPC server on')
   });
 }
 

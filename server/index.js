@@ -11,7 +11,13 @@ const conexion = {
 }
 
 const client = new Client(conexion); 
-//client.connect();
+/*client.connect(function (err){
+  if(err){
+      console.log(' Error al conectarse a la base de datos ',err);
+  } else {
+      console.log(' Conexión a la base de datos exitosa ');
+  }
+});*/
 
 const app = express()
 
@@ -41,3 +47,5 @@ app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
 })();
+
+module.exports = client;

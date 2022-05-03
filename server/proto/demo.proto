@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.demo";
+option java_outer_classname = "DemoProto";
+option objc_class_prefix = "HLW";
+
+package demo;
+
+service Casos {
+  rpc AddCaso (InventoryReq) returns (Reply) {}
+  rpc ListarCasos (Empty) returns (stream InventoryRes) {}
+}
+
+message InventoryReq {
+  int32 index = 1;
+  string name = 2;
+  float price = 3;
+  string category = 4;
+  int32 count = 5;
+}
+
+message Reply {
+  string message = 1;
+}
+
+message Empty {}
+
+message InventoryRes {
+  int32 index = 1;
+  string name = 2;
+  float price = 3;
+  string category = 4;
+  int32 count = 5;
+}

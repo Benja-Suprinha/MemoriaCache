@@ -8,14 +8,14 @@ option objc_class_prefix = "HLW";
 package demo;
 
 service Casos {
-  rpc AddCaso (CasoRequest) returns (Reply) {}
-  rpc ListarCasos (Empty) returns (stream CasoReply) {}
+  rpc AddCaso (InventoryReq) returns (Reply) {}
+  rpc ListarCasos (Empty) returns (stream InventoryRes) {}
 }
 
-message CasoRequest {
+message InventoryReq {
   int32 index = 1;
   string name = 2;
-  floar price = 3;
+  float price = 3;
   string category = 4;
   int32 count = 5;
 }
@@ -26,10 +26,10 @@ message Reply {
 
 message Empty {}
 
-message CasoReply {
-  string name = 1;
-  string location = 2;
-  int32 age = 3;
-  string infected_type = 4;
-  string state = 5;
+message InventoryRes {
+  int32 index = 1;
+  string name = 2;
+  float price = 3;
+  string category = 4;
+  int32 count = 5;
 }
