@@ -12,12 +12,17 @@ console.log({ host: process.env.REDIS_HOST, port: 6379 });
 client.on("error", (err) => console.error("Redis Client Error", err));
 client.connect();
 
+app.get("/", (req,res)=>{
+  res.send("api redis op")
+});
+
 app.get("/list", async (req,res)=>{
-  await 
-    client.get("name", (err,reply)=>{
-      console.log(reply);
-      res.send(reply);
-    })
+  const redisRes = await client.get("name")
+  if(redisRes){
+    res.send(redisRes);
+  }else{
+    res.send("no hay respuesta");
+  }
 });
 
 /*app.get("/inventory/search", async (req, res) => {
