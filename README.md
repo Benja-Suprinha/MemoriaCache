@@ -1,5 +1,7 @@
 # Tarea 1: Sistemas Distribuidos
 
+Integrantes del grupo: Guillermo Martínez, Benjamín Ojeda
+
 Tecnologías utilizadas Nodejs y gRPC.
 
 Modulos de Node utilizados:
