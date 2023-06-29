@@ -1,6 +1,4 @@
-# Tarea 1: Sistemas Distribuidos
-
-Integrantes del grupo: Guillermo Martínez, Benjamín Ojeda
+# Memoria Cache REDIS
 
 Tecnologías utilizadas Nodejs y gRPC.
 
